@@ -18,7 +18,13 @@ def get_masks_card_number(card_number: Union[str, int]) -> str:
         raise ValueError("Неверный формат номера карты")
     card_number_mask = card_number.replace(card_number[6:12], "*" * 6)
     card_number_mask = (
-        card_number_mask[:4] + " " + card_number_mask[4:8] + " " + card_number_mask[8:12] + " " + card_number_mask[12:]
+        card_number_mask[:4]
+        + " "
+        + card_number_mask[4:8]
+        + " "
+        + card_number_mask[8:12]
+        + " "
+        + card_number_mask[12:]
     )
     return card_number_mask
 
