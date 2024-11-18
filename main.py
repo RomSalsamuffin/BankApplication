@@ -7,5 +7,4 @@ print(get_masks_account(73654108430135874305))
 
 print(get_date("2024-03-11T02:26:18.671407"))
 
-print(masks_account_card('Maestro 1596837868705199'))
-
+print(masks_account_card("Maestro 1596837868705199"))

@@ -1,5 +1,4 @@
-from typing import Union
-from src.masks import get_masks_card_number, get_masks_account
+from src.masks import get_masks_account, get_masks_card_number
 
 
 def masks_account_card(account_number_str: str) -> str:
@@ -22,13 +21,13 @@ def masks_account_card(account_number_str: str) -> str:
     if type(account_number_str) not in [str]:
         raise TypeError("Неверный тип данных")
     account_number_list = account_number_str.split()
-    if len(account_number_list[-1]) == 16 and account_number_list[0] != 'Счет':
+    if len(account_number_list[-1]) == 16 and account_number_list[0] != "Счет":
         account_number_list[-1] = get_masks_card_number(account_number_list[-1])
-    elif account_number_list[0] == 'Счет':
+    elif account_number_list[0] == "Счет":
         account_number_list[-1] = get_masks_account(account_number_list[-1])
     else:
         raise ValueError("Неверный формат данных")
-    mask_account_number = ' '.join(account_number_list)
+    mask_account_number = " ".join(account_number_list)
     return mask_account_number
 
 
@@ -43,5 +42,5 @@ def get_date(date_input_str: str) -> str:
     if "T" not in date_input_str:
         raise ValueError("Неверный формат данных")
     else:
-        date_str = '.'.join(date_input_str.split('T')[0].split("-")[-1::-1])
+        date_str = ".".join(date_input_str.split("T")[0].split("-")[-1::-1])
     return date_str
