@@ -18,6 +18,8 @@ def masks_account_card(account_number_str: str) -> str:
     входной аргумент (номер счета): Счет 73654108430135874305
     возвращаемый маскированный номер счета: Счет **4305
     """
+    if not account_number_str:
+        raise ValueError("Пустая строка")
     if type(account_number_str) not in [str]:
         raise TypeError("Неверный тип данных")
     account_number_list = account_number_str.split()
@@ -35,12 +37,16 @@ def get_date(date_input_str: str) -> str:
     """
     Функция, возвращающая дату в формате ДД.ММ.ГГГГ
     :param date_input_str: Дата в формате '2024-03-11T02:26:18.671407'
-    :return: date_str: Дата в формате ДД.ММ.ГГГГ
+    :return: date_str_out: Дата в формате ДД.ММ.ГГГГ
     """
     if type(date_input_str) not in [str]:
         raise TypeError("Неверный тип данных")
     if "T" not in date_input_str:
         raise ValueError("Неверный формат данных")
     else:
-        date_str = ".".join(date_input_str.split("T")[0].split("-")[-1::-1])
-    return date_str
+        date_str = date_input_str.split("T")[0]
+        if len(date_str) != 10 or date_str.count('-') != 2:
+            raise ValueError("Неверный формат данных")
+        date_str_out = ".".join(date_str.split("-")[-1::-1])
+
+    return date_str_out
