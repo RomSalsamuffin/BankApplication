@@ -45,7 +45,7 @@ def get_date(date_input_str: str) -> str:
         raise ValueError("Неверный формат данных")
     else:
         date_str = date_input_str.split("T")[0]
-        if len(date_str) != 10 or date_str.count('-') != 2:
+        if len(date_str) != 10 or date_str.count("-") != 2:
             raise ValueError("Неверный формат данных")
         date_str_out = ".".join(date_str.split("-")[-1::-1])
 
