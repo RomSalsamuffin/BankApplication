@@ -1,6 +1,5 @@
 import pytest
 
-
 from src.masks import get_masks_account, get_masks_card_number
 
 
