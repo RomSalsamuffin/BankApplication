@@ -99,6 +99,43 @@ sort_by_date(list_of_dicts, False)
 
 ### Пакет tests
 Содержит модули для тестирования реализованных функций.
+#### Модуль test_masks
+Содержит функции для тестирования функций модуля masks.py
+* test_masks_card_number_valid_int - Функция, тестирующая работу функции get_masks_card_number в целочисленном формате
+* test_masks_card_number_valid_str - Функция, тестирующая работу функции get_masks_card_number в формате строки
+* test_masks_card_number_invalid_data_type - Функция, тестирующая работу функции get_masks_card_number 
+c неверным типом данных
+* test_masks_card_number_invalid_forma - Функция, тестирующая работу функции get_masks_card_number 
+c неверным форматом карты
+* test_masks_card_number_empty_input - Функция, тестирующая работу функции get_masks_card_number c пустой строкой
+* test_masks_card_number_parametrize - Функция, тестирующая работу функции get_masks_card_number 
+c различными входными данными
+* test_masks_account_parametrize - Функция, тестирующая работу функции get_masks_account c различными входными данными
+
+#### Модуль test_processing
+Содержит функции для тестирования функций модуля processing.py
+* test_filter_by_state_exceptions - Функция, тестирующая работу функции filter_by_state с неверным типом данных 
+или с отсутствующим ключом state
+* test_filter_by_state_default_state - Функция, тестирующая работу функции filter_by_state 
+с параметром по умолчанию state = EXECUTED, присутствующем в элементах списка
+* test_filter_by_state_w_state_param_cancelled - Функция, тестирующая работу функции filter_by_state 
+с параметром state = CANCELED
+* test_filter_by_state_wo_state_executed_in_list - Функция, тестирующая работу функции filter_by_state 
+с параметром state = PROCESSING
+* test_sort_by_date_exceptions - Функция, тестирующая работу функции filter_by_state с неверным типом данных 
+или с отсутствующим ключом state
+* test_sort_by_date_default_sorting - Функция, тестирующая работу функции sort_by_date 
+с параметром по умолчанию True (по убыванию даты)
+* test_sort_by_date_rising_sorting - Функция, тестирующая работу функции sort_by_date с сортировкой по возрастанию даты
+* test_sort_by_date_rising_sorting_equal_date - Функция, тестирующая работу функции sort_by_date 
+с сортировкой по возрастанию даты
+* test_sort_by_date_incorrect_date - Функция, тестирующая работу функции sort_by_date с некорректной датой
+
+#### Модуль test_widget
+Содержит функции для тестирования функций модуля widget.py
+* test_masks_account_card_parametrize - Функция, тестирующая работу функции get_masks_account 
+c различными входными данными
+* test_get_date - Функция, тестирующая работу функции get_date c различными входными данными
 
 ### Файл main.py
 Файл, содержащий реализующий основную логику приложения.
