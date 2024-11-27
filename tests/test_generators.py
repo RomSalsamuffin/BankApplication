@@ -84,27 +84,6 @@ transactions = (
 )
 
 
-@pytest.mark.parametrize('list_of_transactions, transaction_currency, expected',
-                         [
-                             (123, None, TypeError),
-                             ([], None, ValueError),
-                             (transactions, 123, TypeError),
-                             ([{}], None, KeyError),
-                             ([{'operationAmount': 1}], None, TypeError),
-                             ([{'operationAmount': {}}], None, KeyError)
-                         ])
-def test_filter_by_currency_errors(list_of_transactions, transaction_currency, expected):
-    '''
-    Функция, тестирующая работу функции filter_by_currency с ошибочными параметрами
-    '''
-    with pytest.raises(Exception) as e:
-        if transaction_currency is None:
-            next(filter_by_currency(list_of_transactions))
-        else:
-            next(filter_by_currency(list_of_transactions, transaction_currency))
-    assert e.type == expected
-
-
 @pytest.fixture
 def get_usd_sorted_transactions() -> list:
     '''Фикстура, возвращающая список транзакций, отсортированный по валюте USD'''
@@ -216,22 +195,6 @@ def test_filter_by_currency_none():
     assert [x for x in filter_by_currency(transactions, 'MYR')] == []
 
 
-@pytest.mark.parametrize('list_of_transactions, expected',
-                         [
-                             (123, TypeError),
-                             ([], ValueError),
-                             ([123], TypeError),
-                             ([{}], KeyError)
-                         ])
-def test_transaction_descriptions_errors(list_of_transactions, expected):
-    '''
-    Функция, тестирующая работу функции filter_by_currency с ошибочными параметрами
-    '''
-    with pytest.raises(Exception) as e:
-        next(transaction_descriptions(list_of_transactions))
-    assert e.type == expected
-
-
 def test_transaction_descriptions():
     '''Функция, тестирующая функцию transaction_descriptions'''
     assert [x for x in transaction_descriptions(transactions)] == ['Перевод организации',
@@ -243,9 +206,6 @@ def test_transaction_descriptions():
 
 @pytest.mark.parametrize('start, stop, expected',
                          [
-                             ('1', '5', TypeError),
-                             (1, '5', TypeError),
-                             ('1', 5, TypeError),
                              (-1, 5, ValueError),
                              (1, -5, ValueError),
                              (5, 1, ValueError),

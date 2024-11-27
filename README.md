@@ -126,7 +126,6 @@ sort_by_date(list_of_dicts, False)
 Содержит модули для тестирования реализованных функций.
 #### Модуль test_generators
 Содержит функции для тестирования функций модуля generators.py
-* test_filter_by_currency_errors - Функция, тестирующая работу функции filter_by_currency с ошибочными параметрами
 * get_usd_sorted_transactions - Фикстура, возвращающая список транзакций, отсортированный по валюте USD
 * test_filter_by_currency_default - Функция, тестирующая функцию filter_by_currency c фильтрацией списка 
 по валюте USD (по умолчанию)
@@ -135,7 +134,6 @@ sort_by_date(list_of_dicts, False)
 * test_filter_by_currency_rub - Функция, тестирующая функцию filter_by_currency c фильтрацией списка по валюте RUB
 * test_filter_by_currency_none - Функция, тестирующая функцию filter_by_currency c фильтрацией списка по валюте, 
 отсутствующей в списке
-* test_transaction_descriptions_errors - Функция, тестирующая работу функции filter_by_currency с ошибочными параметрами
 * test_transaction_descriptions - Функция, тестирующая функцию transaction_descriptions
 * test_card_number_generator - Функция, тестирующая работу функции card_number_generator
 
