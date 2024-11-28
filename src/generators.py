@@ -12,7 +12,7 @@ def filter_by_currency(list_of_transactions: list[dict], transaction_currency: s
     for transaction in list_of_transactions:
         try:
             code = transaction['operationAmount']['currency']['code']
-        except KeyError('Ключ отсутствует в словаре'):
+        except KeyError:
             continue
         if code == transaction_currency:
             yield transaction
@@ -25,11 +25,9 @@ def transaction_descriptions(list_of_transactions: list[dict]) -> Iterator[str]:
     :return: описание транзакции
     '''
     for transaction in list_of_transactions:
-        try:
-            description = transaction['description']
-        except KeyError('Ключ отсутствует в словаре'):
+        if 'description' not in transaction:
             continue
-        yield description
+        yield transaction['description']
 
 
 def card_number_generator(start: int, stop: int) -> Iterator[str]:
@@ -39,7 +37,10 @@ def card_number_generator(start: int, stop: int) -> Iterator[str]:
     :param start: начальный номер диапазона генерации
     :param stop: конечный номер диапазона генерации
     '''
-    if start < 0 or stop < 0 or start > stop:
+    min_card_number = 1
+    max_card_number = 9999999999999999
+    if (start < min_card_number or start > max_card_number or stop < min_card_number or stop > max_card_number
+            or start > stop):
         raise ValueError('Неверное значение переменных')
     number = start
     while number <= stop:

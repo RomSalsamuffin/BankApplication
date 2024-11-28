@@ -139,12 +139,12 @@ def get_usd_sorted_transactions() -> list:
 
 def test_filter_by_currency_default(get_usd_sorted_transactions):
     '''Функция, тестирующая функцию filter_by_currency c фильтрацией списка по валюте USD (по умолчанию)'''
-    assert [x for x in filter_by_currency(transactions)] == get_usd_sorted_transactions
+    assert list(filter_by_currency(transactions)) == get_usd_sorted_transactions
 
 
 def test_filter_by_currency_usd(get_usd_sorted_transactions):
     '''Функция, тестирующая функцию filter_by_currency c фильтрацией списка по валюте USD'''
-    assert [x for x in filter_by_currency(transactions, 'USD')] == get_usd_sorted_transactions
+    assert list(filter_by_currency(transactions, 'USD')) == get_usd_sorted_transactions
 
 
 @pytest.fixture
@@ -187,21 +187,42 @@ def get_rub_sorted_transactions() -> list:
 
 def test_filter_by_currency_rub(get_rub_sorted_transactions):
     '''Функция, тестирующая функцию filter_by_currency c фильтрацией списка по валюте RUB'''
-    assert [x for x in filter_by_currency(transactions, 'RUB')] == get_rub_sorted_transactions
+    assert list(filter_by_currency(transactions, 'RUB')) == get_rub_sorted_transactions
 
 
 def test_filter_by_currency_none():
     '''Функция, тестирующая функцию filter_by_currency c фильтрацией списка по валюте, отсутствующей в списке'''
-    assert [x for x in filter_by_currency(transactions, 'MYR')] == []
+    assert list(filter_by_currency(transactions, 'MYR')) == []
+
+
+def test_filter_by_currency_empty_list():
+    '''Функция, тестирующая функцию filter_by_currency c фильтрацией пустого списка'''
+    assert list(filter_by_currency([])) == []
 
 
 def test_transaction_descriptions():
     '''Функция, тестирующая функцию transaction_descriptions'''
-    assert [x for x in transaction_descriptions(transactions)] == ['Перевод организации',
-                                                                   'Перевод со счета на счет',
-                                                                   'Перевод со счета на счет',
-                                                                   'Перевод с карты на карту',
-                                                                   'Перевод организации']
+    assert list(transaction_descriptions(transactions)) == ['Перевод организации',
+                                                            'Перевод со счета на счет',
+                                                            'Перевод со счета на счет',
+                                                            'Перевод с карты на карту',
+                                                            'Перевод организации']
+
+
+@pytest.mark.parametrize('start, stop, expected',
+                         [
+                             (1, 3, ['0000 0000 0000 0001', '0000 0000 0000 0002', '0000 0000 0000 0003']),
+                             (1, 1, ['0000 0000 0000 0001']),
+                             (9999999999999999, 9999999999999999, ['9999 9999 9999 9999'])
+                         ])
+def test_card_number_generator(start, stop, expected):
+    '''
+    Функция, тестирующая работу функции card_number_generator (верная генерация в заданном диапазоне)
+    :param start: Начальное значение диапазона генерации
+    :param stop: Конечное значение диапазона генерации
+    :param expected: Ожидаемый результат работы функции
+    '''
+    assert list(card_number_generator(start, stop)) == expected
 
 
 @pytest.mark.parametrize('start, stop, expected',
@@ -209,19 +230,15 @@ def test_transaction_descriptions():
                              (-1, 5, ValueError),
                              (1, -5, ValueError),
                              (5, 1, ValueError),
-                             (1, 3, ['0000 0000 0000 0001', '0000 0000 0000 0002', '0000 0000 0000 0003'])
+                             (1234567890123456789, 123456789012345678900, ValueError)
                          ])
-def test_card_number_generator(start, stop, expected):
+def test_card_number_generator_errors(start, stop, expected):
     '''
-    Функция, тестирующая работу функции card_number_generator
+    Функция, тестирующая работу функции card_number_generator c неверными значениями переменных
     :param start: Начальное значение диапазона генерации
     :param stop: Конечное значение диапазона генерации
-    :param expected: Ожидаемый результат работы функции или ожидаемое исключение
+    :param expected: Ожидаемое исключение
     '''
-    try:
-        card_numbers_actual = [card_number for card_number in card_number_generator(start, stop)]
-        assert card_numbers_actual == expected
-    except:
-        with pytest.raises(Exception) as e:
-            next(card_number_generator(start, stop)) == expected
-        assert e.type == expected
+    with pytest.raises(Exception) as e:
+        next(card_number_generator(start, stop))
+    assert e.type == expected

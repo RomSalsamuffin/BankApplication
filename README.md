@@ -31,6 +31,7 @@ transaction_currency: строка, представляющая собой кл
 
 * Функция card_number_generator - функция-генератор, возвращающая номера карт 
 в формате ХХХХ ХХХХ ХХХХ ХХХХ из диапазона чисел от start_number до stop_number.
+Допустимый диапазон номеров карт - от 0000 0000 0000 0001 до 9999 9999 9999 9999 
 ```
 Аргументы:
 start_number: начальный номер диапазона генерации
@@ -134,8 +135,11 @@ sort_by_date(list_of_dicts, False)
 * test_filter_by_currency_rub - Функция, тестирующая функцию filter_by_currency c фильтрацией списка по валюте RUB
 * test_filter_by_currency_none - Функция, тестирующая функцию filter_by_currency c фильтрацией списка по валюте, 
 отсутствующей в списке
+* test_filter_by_currency_empty_list - Функция, тестирующая функцию filter_by_currency c фильтрацией пустого списка
 * test_transaction_descriptions - Функция, тестирующая функцию transaction_descriptions
-* test_card_number_generator - Функция, тестирующая работу функции card_number_generator
+* test_card_number_generator - Функция, тестирующая работу функции card_number_generator с валидными аргументами
+* test_card_number_generator_errors - Функция, тестирующая работу функции card_number_generator 
+с ошибочными значениями
 
 #### Модуль test_masks
 Содержит функции для тестирования функций модуля masks.py
