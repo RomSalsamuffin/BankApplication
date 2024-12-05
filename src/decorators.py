@@ -1,5 +1,4 @@
 import os.path
-from functools import wraps
 
 
 def log(filename: str = ''):
