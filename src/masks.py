@@ -1,13 +1,13 @@
 import logging
 import os.path
+from typing import Union
 
 from src.config import APP_PATH
-from typing import Union
 
 logger = logging.getLogger('masks')
 log_filepath = os.path.join(APP_PATH, 'logs', 'masks.log')
 file_handler = logging.FileHandler(log_filepath, encoding='utf-8', mode='w')
-file_formatter =logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+file_formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 file_handler.setFormatter(file_formatter)
 logger.addHandler(file_handler)
 logger.setLevel(logging.DEBUG)
@@ -66,10 +66,3 @@ def get_masks_account(account_number: Union[str, int]) -> str:
     masked_account_number = "**" + account_number[-4:]
     logger.info(f'Возвращаем маскированный номер счета masked_account_number = {masked_account_number}')
     return masked_account_number
-
-if __name__ == '__main__':
-    print(get_masks_card_number('7000792289606361'))
-    #print(get_masks_card_number('70007922896'))
-    #print(get_masks_card_number('A000792289606361'))
-
-    print(get_masks_account('367968696986554546899845'))

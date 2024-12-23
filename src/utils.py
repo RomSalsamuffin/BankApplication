@@ -4,11 +4,10 @@ import os.path
 
 from src.config import APP_PATH
 
-
 logger = logging.getLogger('utils')
 log_filepath = os.path.join(APP_PATH, 'logs', 'utils.log')
 file_handler = logging.FileHandler(log_filepath, encoding='utf-8', mode='w')
-file_formatter =logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+file_formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 file_handler.setFormatter(file_formatter)
 logger.addHandler(file_handler)
 logger.setLevel(logging.DEBUG)
