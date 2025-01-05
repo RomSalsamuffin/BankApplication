@@ -4,14 +4,16 @@ from src.external_api import get_amount_rub
 
 
 def test_get_amount_rub_for_rub():
-    transaction = {'operationAmount': {'amount': '31957.58', 'currency': {'code': 'RUB'}}}
+    transaction = {
+        "operationAmount": {"amount": "31957.58", "currency": {"code": "RUB"}}
+    }
     assert get_amount_rub(transaction) == 31957.58
 
 
-@patch('requests.get')
+@patch("requests.get")
 def test_get_amount_rub_for_usd(mocked_get):
-    transaction = {'operationAmount': {'amount': '100', 'currency': {'code': 'USD'}}}
-    api_response = {'result': 10294.5608}
+    transaction = {"operationAmount": {"amount": "100", "currency": {"code": "USD"}}}
+    api_response = {"result": 10294.5608}
 
     mocked_response = Mock()
     mocked_response.status_code = 200
