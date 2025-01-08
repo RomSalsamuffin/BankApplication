@@ -22,7 +22,7 @@ def get_amount_rub(transaction: dict) -> float:
             f"https://api.apilayer.com/exchangerates_data/convert?to=RUB"
             f"&from={transaction_currency}&amount={transaction_amount}"
         )
-        payload = {}
+        payload: dict = {}
         headers = {"apikey": API_KEY}
         response = requests.get(url, headers=headers, data=payload)
         response.raise_for_status()
