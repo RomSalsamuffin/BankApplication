@@ -47,6 +47,17 @@ def get_transactions_csv(csv_path: str = "") -> list[dict]:
                 for index, row in transactions_df.iterrows():
                     row.id = int(row.id)
                     transactions_list.append(row.to_dict())
+                for transaction in transactions_list:
+                    transaction['operationAmount'] = {
+                        'amount': transaction['amount'],
+                        'currency': {
+                            'name': transaction['currency_name'],
+                            'code': transaction['currency_code']
+                        }
+                    }
+                    transaction.pop('amount', None)
+                    transaction.pop('currency_name', None)
+                    transaction.pop('currency_code', None)
             except Exception as e:
                 print(e)
                 logger.error("Ошибка чтения файла. Возврат пустого списка транзакций")
@@ -88,6 +99,17 @@ def get_transactions_excel(excel_path: str = "") -> list[dict]:
                 for index, row in transactions_df.iterrows():
                     row.id = int(row.id)
                     transactions_list.append(row.to_dict())
+                for transaction in transactions_list:
+                    transaction['operationAmount'] = {
+                        'amount': transaction['amount'],
+                        'currency': {
+                            'name': transaction['currency_name'],
+                            'code': transaction['currency_code']
+                        }
+                    }
+                    transaction.pop('amount', None)
+                    transaction.pop('currency_name', None)
+                    transaction.pop('currency_code', None)
             except:
                 logger.error("Ошибка чтения файла. Возврат пустого списка транзакций")
         else:
@@ -95,9 +117,3 @@ def get_transactions_excel(excel_path: str = "") -> list[dict]:
     else:
         logger.error("Путь к excel не передан. Возврат пустого списка транзакций")
     return transactions_list
-
-
-# #tr_list_csv = get_transactions_csv('data/transactions.csv')
-# #print(tr_list_csv[:5])
-# tr_list_excel = get_transactions_excel('data/transactions_excel.xlsx')
-# print(tr_list_excel[59:62])

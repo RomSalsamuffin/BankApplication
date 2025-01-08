@@ -15,7 +15,7 @@ logger.addHandler(file_handler)
 logger.setLevel(logging.DEBUG)
 
 
-def get_operation(json_path: str = None) -> list[dict]:
+def get_operation(json_path: str = '') -> list[dict]:
     """Функция, получающая данные о транзакциях из json-файла
     :param json_path: - путь к json-файлу
     :return: список словарей, представляющих собой транзакции
@@ -40,8 +40,12 @@ def get_operation(json_path: str = None) -> list[dict]:
                     if not isinstance(operations, list):
                         logger.error("Файл содержит не список. Возврат пустого списка")
                         return []
+                    operations_list = []
+                    for operation in operations:
+                        if operation:
+                            operations_list.append(operation)
                     logger.info("Возврат списка словарей")
-                    return operations
+                    return operations_list
             except:
                 logger.error("Ошибка чтения файла. Возврат пустого списка транзакций")
                 return []

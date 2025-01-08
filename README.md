@@ -138,6 +138,15 @@ sort_by_date(list_of_dicts, False)
 {'id': 41428829, 'state': 'EXECUTED', 'date': '2019-07-03T18:35:29.512364'}]
 ```
 
+* Функция get_transactions_description_sorted_list - функция, принимающая на вход список словарей, 
+представляющих собой транзакции, строку поиска, по которой осуществляется сортировка исходного списка. 
+Функция возвращает список словарей, представляющий собой транзакции, отсортированные по ключевой фразе
+
+* Функция count_transactions_categories - функция, принимающая список словарей с данными о банковских операциях 
+и список категорий операций. 
+Функция возвращает словарь, в котором ключи — это названия категорий, а значения — 
+это количество операций в каждой категории
+
 #### Модуль utils:
 * Функция get_operation - функция, получающая данные о транзакциях из json-файла
 ```
@@ -247,6 +256,20 @@ c различными входными данными
 * test_sort_by_date_rising_sorting_equal_date - Функция, тестирующая работу функции sort_by_date 
 с сортировкой по возрастанию даты
 * test_sort_by_date_incorrect_date - Функция, тестирующая работу функции sort_by_date с некорректной датой
+* get_list_of_transactions - Фикстура, возвращающая тестовый список транзакций с описанием
+* get_list_of_transactions_sorted_by_keyword - Фикстура, возвращающая тестовый список транзакций, 
+отсортированный по ключевому слову 'перевод'
+* test_get_transactions_description_sorted_list - Функция, тестирующая работу функции get_transactions_description_sorted_list 
+с сортировкой по ключевому слову, присутствующему в описании
+* test_get_transactions_description_sorted_list_not_in_description - Функция, тестирующая работу функции get_transactions_description_sorted_list 
+с сортировкой по ключевому слову, отсутствующему в описании
+* get_list_of_transaction_categories - Фикстура, возвращающая тестовый список категорий транзакций
+* get_dict_of_transaction_categories - Фикстура, возвращающая словарь категорий транзакций с подсчитанными количеством транзакций
+* test_count_transactions_categories - Функция, тестирующая работу функции count_transactions_categories с подсчетом по категориям в списке
+* get_list_of_transaction_categories_not_in_list_of_transactions - Фикстура, возвращающая тестовый список категорий транзакций
+* get_dict_of_transaction_categories_not_in_list_of_transactions - Фикстура, возвращающая словарь категорий транзакций
+* test_count_transactions_categories_not_in_list - Функция, тестирующая работу функции count_transactions_categories 
+с подсчетом по категориям в списке
 
 #### Модуль test_utils
 Содержит функции для тестирования модуля utils

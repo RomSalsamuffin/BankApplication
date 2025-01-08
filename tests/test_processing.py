@@ -1,6 +1,8 @@
 import pytest
 
-from src.processing import filter_by_state, sort_by_date
+from src.processing import (count_transactions_categories, filter_by_state,
+                            get_transactions_description_sorted_list,
+                            sort_by_date)
 
 
 @pytest.mark.parametrize(
@@ -81,7 +83,7 @@ def get_list_of_dicts_w_state_param_not_in_list() -> tuple:
         {"id": 615064591, "state": "CANCELED", "date": "2018-10-14T08:21:33.419441"},
     ]
     state = "PROCISSING"
-    sorted_list = []
+    sorted_list: list = []
     return unsorted_list, state, sorted_list
 
 
@@ -209,3 +211,90 @@ def test_sort_by_date_incorrect_date(get_list_of_dicts_incorrect_date):
     with pytest.raises(ValueError) as e:
         sort_by_date(get_list_of_dicts_incorrect_date)
     assert e.type == ValueError
+
+
+@pytest.fixture
+def get_list_of_transactions() -> list[dict]:
+    """Фикстура, возвращающая тестовый список транзакций с описанием"""
+    transaction_list = [
+        {"id": 3755365965, "description": "Перевод организации"},
+        {"id": 353569365, "description": "Перевод организации"},
+        {"id": 706875365365, "description": "Открытие вклада"},
+        {"id": 57036776, "description": "Открытие вклада"},
+        {"id": 476046704, "description": "Перевод со счета на счет"},
+        {"id": 569356035, "description": "Перевод со счета на счет"},
+        {"id": 7695476507, "description": "Закрытие вклада"}
+    ]
+    return transaction_list
+
+
+@pytest.fixture
+def get_list_of_transactions_sorted_by_keyword() -> list[dict]:
+    """ Фикстура, возвращающая тестовый список транзакций, отсортированный по ключевому слову 'перевод' """
+    sorted_list = [
+        {"id": 3755365965, "description": "Перевод организации"},
+        {"id": 353569365, "description": "Перевод организации"},
+        {"id": 476046704, "description": "Перевод со счета на счет"},
+        {"id": 569356035, "description": "Перевод со счета на счет"}
+    ]
+    return sorted_list
+
+
+def test_get_transactions_description_sorted_list(get_list_of_transactions,
+                                                  get_list_of_transactions_sorted_by_keyword):
+    """Функция, тестирующая работу функции get_transactions_description_sorted_list с сортировкой по ключевому слову,
+    присутствующему в описании"""
+    assert (get_transactions_description_sorted_list(get_list_of_transactions,
+                                                     'перевод') == get_list_of_transactions_sorted_by_keyword)
+
+
+def test_get_transactions_description_sorted_list_not_in_description(get_list_of_transactions):
+    """Функция, тестирующая работу функции get_transactions_description_sorted_list с сортировкой по ключевому слову,
+    отсутствующему в описании"""
+    assert (get_transactions_description_sorted_list(get_list_of_transactions, 'карт') == [])
+
+
+@pytest.fixture
+def get_list_of_transaction_categories() -> list:
+    """ Фикстура, возвращающая тестовый список категорий транзакций """
+    transaction_categories = ['Перевод организации', 'Закрытие вклада']
+    return transaction_categories
+
+
+@pytest.fixture
+def get_dict_of_transaction_categories() -> dict:
+    """ Фикстура, возвращающая словарь категорий транзакций с подсчитанными количеством транзакций"""
+    transaction_categories = {'Перевод организации': 2, 'Закрытие вклада': 1}
+    return transaction_categories
+
+
+def test_count_transactions_categories(get_list_of_transactions,
+                                       get_list_of_transaction_categories,
+                                       get_dict_of_transaction_categories):
+    """Функция, тестирующая работу функции count_transactions_categories с подсчетом по категориям в списке"""
+    assert (count_transactions_categories(get_list_of_transactions,
+                                          get_list_of_transaction_categories) == get_dict_of_transaction_categories)
+
+
+@pytest.fixture
+def get_list_of_transaction_categories_not_in_list_of_transactions() -> list:
+    """ Фикстура, возвращающая тестовый список категорий транзакций """
+    transaction_categories = ['Перевод с карты на счет']
+    return transaction_categories
+
+
+@pytest.fixture
+def get_dict_of_transaction_categories_not_in_list_of_transactions() -> dict:
+    """ Фикстура, возвращающая словарь категорий транзакций """
+    transaction_categories = {'Перевод с карты на счет': 0}
+    return transaction_categories
+
+
+def test_count_transactions_categories_not_in_list(get_list_of_transactions,
+                                                   get_list_of_transaction_categories_not_in_list_of_transactions,
+                                                   get_dict_of_transaction_categories_not_in_list_of_transactions):
+    """Функция, тестирующая работу функции count_transactions_categories с подсчетом по категориям в списке"""
+    assert (count_transactions_categories(
+        get_list_of_transactions,
+        get_list_of_transaction_categories_not_in_list_of_transactions
+    ) == get_dict_of_transaction_categories_not_in_list_of_transactions)
